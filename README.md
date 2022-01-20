@@ -1,52 +1,38 @@
-# api-plugin-example
+# api-plugin-id-generator
 
-[![npm (scoped)](https://img.shields.io/npm/v/@reactioncommerce/api-plugin-example.svg)](https://www.npmjs.com/package/@reactioncommerce/api-plugin-example)
-[![CircleCI](https://circleci.com/gh/reactioncommerce/api-plugin-example.svg?style=svg)](https://circleci.com/gh/reactioncommerce/api-plugin-example)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 
 ## Summary
+This plugin allows the generation of sequential IDs that can be used in collections.
 
-This plugin provides a Boilerplate for creating an `npm` plugin for the [Reaction API](https://github.com/reactioncommerce/reaction).
+Example:
+```js
+const collectionId = context.mutations.generateNextId(context, "collectionName");
+```
 
-The `Developer Certificate of Origin` and `License` sections can stay as they are, assuming `Apache 2` license is used (our preferred license). All other sections of this README should be updated to reflect your plugin.
+The following code generates a new sequential id.
 
-## Included in this example plugin
+By default, the initial value of the generated id starts from `0`. If a custom starting value is required, a new environmental variable should be added.
+The format of the env variable name should be the following:
 
-### `.circleci/`
+`COLLECTION_NAME` + `_ID_GENERATOR_INITIAL_VALUE`
 
-Adds CI scripts that enable Circle CI to run tests, lint, and semantic release your project. The `semantic-release` portions of the script are commented out, and should be uncommented in a PR once your plugin is ready to be released.
+For example if we want to generate an incremental id for `Invoices` collection, starting from `10000` we should first define the following env variable:
+```js
+INVOICES_ID_GENERATOR_INITIAL_VALUE=10000
+```
 
-### `src/`
+Then if we want to create new invoice we can do the following:
+```js
+const generatedId = context.mutations.generateNextId(context, "invoices");
 
-The `src` folder is where you'll put all the plugin files. An `index.js` with a bear-bones `registerPlugin` is included.
+Invoices.insertOne({
+   invoiceId: generatedId
+   ...
+})
+```
 
-### `.gitignore`
-
-A basic `gitignore` file
-
-### `.nvmrc`
-
-`.nvmrc` sets your plugin to use Node v12.14.1
-
-### `babel.config.cjs`
-
-If your plugin includes linting and tests, this file is required to allow esmodules to run correctly.
-
-### `jest.config.cjs`
-
-If your plugin includes tests, this file is required to allow esmodules to run correctly. You'll need to update the `transformIgnorePatterns` and `moduleNameMapper` sections to include any esmodule `npm` packages used in your plugin.
-
-### `License.md`
-
-If your plugin uses `Apache 2` licensing, you can leave this file as-is. If another type of licensing is used, you need to update this file, and the README, accordingly.
-
-### `package.json`
-
-The provided `package.json` is set up to install all needed packages and config for linting, testing, and semantic-release. You'll need to update the `name`, `description`, and add any new dependencies your plugin files use.
-
-### `index.js`
-
-The entrypoint file for your npm package, will most likely just export your plugin registration from the `src` folder.
+**IMPORTANT:** The name of the collection passed as second parameter to the mutation should be using camel casing in order for the environmental variable to work properly. If the name of the collection for example is consisting of two words, e.g. `TestCollection`, the `getNextId` function should receive `testCollection` string as a paramenter and the env variable should be `TEST_COLLECTION_ID_GENERATOR_INITIAL_VALUE`.
 
 ## Developer Certificate of Origin
 We use the [Developer Certificate of Origin (DCO)](https://developercertificate.org/) in lieu of a Contributor License Agreement for all contributions to Reaction Commerce open source projects. We request that contributors agree to the terms of the DCO and indicate that agreement by signing all commits made to Reaction Commerce projects by adding a line with your name and email address to every Git commit message contributed:

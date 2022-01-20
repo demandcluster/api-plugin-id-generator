@@ -1,31 +1,34 @@
 {
-  "name": "@reactioncommerce/api-plugin-example",
-  "description": "Boilerplate Example plugin for the Reaction API",
+  "name": "@demandcluster/api-plugin-id-generator",
+  "description": "Utility plugin for autoincrement values ID generation for Open Commerce API",
   "version": "0.0.0-development",
   "main": "index.js",
   "type": "module",
   "engines": {
     "node": ">=12.14.1"
   },
-  "homepage": "https://github.com/reactioncommerce/api-plugin-example",
-  "url": "https://github.com/reactioncommerce/api-plugin-example",
-  "email": "engineering@reactioncommerce.com",
+  "homepage": "https://github.com/demandcluster/api-plugin-id-generator",
+  "url": "https://github.com/demandcluster/api-plugin-id-generator",
+  "email": "engineering@demandcluster.com",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/reactioncommerce/api-plugin-example.git"
+    "url": "git+https://github.com/demandcluster/api-plugin-id-generator.git"
   },
   "author": {
-    "name": "Reaction Commerce",
-    "email": "engineering@reactioncommerce.com",
-    "url": "https://reactioncommerce.com"
+    "name": "Demandcluster",
+    "email": "engineering@demandcluster.com",
+    "url": "https://demandcluster.com"
   },
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/reactioncommerce/api-plugin-example/issues"
+    "url": "https://github.com/demandcluster/api-plugin-id-generator/issues"
   },
   "sideEffects": false,
   "dependencies": {
-    "@reactioncommerce/api-utils": "^1.16.5"
+    "@reactioncommerce/api-utils": "^1.16.5",
+    "@reactioncommerce/logger": "~1.1.2",
+    "@reactioncommerce/random": "~1.0.2",
+    "simpl-schema": "^1.12.0"
   },
   "devDependencies": {
     "@babel/core": "^7.7.7",
