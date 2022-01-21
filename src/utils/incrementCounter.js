@@ -7,12 +7,17 @@
 export default async function incrementCounter(context, collectionName) {
   const { IdCounters } = context.collections;
 
-  await IdCounters.findOneAndUpdate(
+  const { value: counter } = await IdCounters.findOneAndUpdate(
     {
       collectionName
     },
     {
       $inc: { counterValue: 1 }
+    },
+    {
+      returnOriginal: false
     }
   );
+
+  return counter.counterValue;
 }

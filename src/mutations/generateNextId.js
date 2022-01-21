@@ -1,4 +1,3 @@
-import Logger from "@reactioncommerce/logger";
 import ensureCounterExistForCollection from "../utils/ensureCounterExistForCollection.js";
 import incrementCounter from "../utils/incrementCounter.js";
 
@@ -11,16 +10,18 @@ import incrementCounter from "../utils/incrementCounter.js";
 export default async function generateNextId(context, collectionName) {
   const session = context.app.mongoClient.startSession();
 
+  let id;
+
   try {
-    session.withTransaction(async () => {
+    await session.withTransaction(async () => {
       await ensureCounterExistForCollection(context, collectionName);
-      await incrementCounter(context, collectionName);
+      id = await incrementCounter(context, collectionName);
     });
   } catch (error) {
-    Logger.error(error);
-  } finally {
     await session.endSession();
+    throw error;
   }
 
-  return 0;
+  await session.endSession();
+  return id;
 }
