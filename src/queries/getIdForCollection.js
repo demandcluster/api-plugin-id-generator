@@ -12,5 +12,5 @@ export default async function getIdForCollection(context, collectionName) {
   await ensureCounterExistForCollection(context, collectionName);
   const counter = await IdCounters.findOne({ collectionName });
 
-  return counter.counterValue;
+  return counter.counterValue + 1;
 }
